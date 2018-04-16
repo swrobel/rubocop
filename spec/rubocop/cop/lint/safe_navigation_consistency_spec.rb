@@ -126,6 +126,13 @@ RSpec.describe RuboCop::Cop::Lint::SafeNavigationConsistency do
       RUBY
     end
 
+    it 'fails when foo is nil' do
+      expect_no_offenses(<<-RUBY.strip_indent)
+        foo = nil
+        foo&.bar || foo&.bar
+      RUBY
+    end
+
     context 'auto-correct' do
       it 'does not correct non dot methods' do
         new_source = autocorrect_source(<<-RUBY.strip_indent)
